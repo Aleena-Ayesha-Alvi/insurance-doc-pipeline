@@ -12,6 +12,23 @@ Document → OCR → Document Classification → Field Extraction → Validation
 
 ---
 
+## Document Classification
+
+Document type classification is performed using the Llama 3.3 70B model.
+
+The model receives OCR text extracted from the document and classifies it into one of the supported document categories:
+
+- Aadhaar Card
+- PAN Card
+- Driving Licence
+- Passport
+- NACH / ECS Mandate
+- FATCA Annexure Form
+- Benefit Illustration Declaration
+- Moral Hazard Questionnaire
+- Multiple Policies Consent Form
+- Suitability Profiler Declaration
+
 # 1. Extraction Output
 
 For every processed document, the system generates a structured JSON file containing:
@@ -272,8 +289,9 @@ LLM:
 * Llama 3.3 70B Versatile (Groq)
 
 PDF Processing:
+- PyMuPDF
 
-* PyMuPDF
+PDF documents are converted into page images before OCR and extraction.
 
 Validation:
 
@@ -288,6 +306,21 @@ Review Workflow:
 * Confidence-based human review routing
 
 ---
+# Results Summary
+
+Documents processed: 12
+
+Outputs generated:
+- Structured JSON per document
+- Human review report
+
+Fields flagged for review:
+- Missing IFSC Code in ECS Mandate
+- Low confidence handwritten dates
+- Low confidence handwritten place names
+- Missing handwritten values where extraction confidence was insufficient
+
+The pipeline completed successfully without requiring manual intervention during processing.
 
 # Conclusion
 

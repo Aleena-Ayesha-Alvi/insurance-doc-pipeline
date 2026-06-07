@@ -1,0 +1,32 @@
+{
+  "document_name": "Fatca.jpeg",
+  "document_type": "FATCA Annexure Form",
+  "is_handwritten": true,
+  "extracted_data": {
+    "Policy Number": {
+      "value": "4921011602",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "TIN / PAN": {
+      "value": "PQED Zo5LR",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Father's Name": {
+      "value": "Axjun",
+      "confidence": 0.9,
+      "validation_passed": true
+    },
+    "Place of Birth": {
+      "value": "WesdBeky",
+      "confidence": 0.75,
+      "validation_passed": true
+    },
+    "Nationality": {
+      "value": "Lndean",
+      "confidence": 0.85,
+      "validation_passed": true
+    }
+  }
+}

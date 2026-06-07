@@ -1,0 +1,90 @@
+[
+  {
+    "document": "Aadhar.png",
+    "document_type": "Aadhaar Card",
+    "field": "Address",
+    "value": "48 JTT HRay faferez, 93ulatqiferdrut, Kataia, West Bihar, India, 841543",
+    "confidence": 0.75,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "ECS.jpeg",
+    "document_type": "NACH / ECS Mandate",
+    "field": "IFSC Code",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Fatca.jpeg",
+    "document_type": "FATCA Annexure Form",
+    "field": "Place of Birth",
+    "value": "WesdBeky",
+    "confidence": 0.75,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Illustration.jpeg",
+    "document_type": "Benefit Illustration Declaration",
+    "field": "Date",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Illustration.jpeg",
+    "document_type": "Benefit Illustration Declaration",
+    "field": "Place",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Moral.jpeg",
+    "document_type": "Moral Hazard Questionnaire",
+    "field": "Date",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Moral.jpeg",
+    "document_type": "Moral Hazard Questionnaire",
+    "field": "Place",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Proposal Ashok.pdf",
+    "document_type": "Benefit Illustration Declaration",
+    "field": "Date",
+    "value": null,
+    "confidence": 0.0,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "split.jpeg",
+    "document_type": "Multiple Policies Consent Form",
+    "field": "Place",
+    "value": "West B",
+    "confidence": 0.75,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "suitability.jpeg",
+    "document_type": "Suitability Profiler Declaration",
+    "field": "Date",
+    "value": "2 loy IoL",
+    "confidence": 0.45,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "suitability.jpeg",
+    "document_type": "Suitability Profiler Declaration",
+    "field": "Place",
+    "value": "Jes_",
+    "confidence": 0.45,
+    "reason": "Below confidence threshold"
+  }
+]

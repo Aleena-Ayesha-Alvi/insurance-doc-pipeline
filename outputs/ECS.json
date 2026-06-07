@@ -1,0 +1,32 @@
+{
+  "document_name": "ECS.jpeg",
+  "document_type": "NACH / ECS Mandate",
+  "is_handwritten": false,
+  "extracted_data": {
+    "Bank Account Number": {
+      "value": "142DE421121",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "IFSC Code": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    },
+    "Bank Name": {
+      "value": "HDFC",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Amount": {
+      "value": "50,000.06",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Frequency": {
+      "value": "Monthly",
+      "confidence": 1.0,
+      "validation_passed": true
+    }
+  }
+}

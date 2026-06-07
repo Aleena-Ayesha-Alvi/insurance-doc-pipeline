@@ -1,0 +1,27 @@
+{
+  "document_name": "ChatGPT Image May 2, 2026, 03_43_11 PM.png",
+  "document_type": "Driving Licence",
+  "is_handwritten": true,
+  "extracted_data": {
+    "DL Number": {
+      "value": "MH12 2021 0001234",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Name": {
+      "value": "MR. ASHOK KUMAR",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Date of Issue": {
+      "value": "15/06/2021",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Valid Till Date": {
+      "value": "14/06/2041",
+      "confidence": 1.0,
+      "validation_passed": true
+    }
+  }
+}

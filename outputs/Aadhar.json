@@ -1,0 +1,27 @@
+{
+  "document_name": "Aadhar.png",
+  "document_type": "Aadhaar Card",
+  "is_handwritten": false,
+  "extracted_data": {
+    "Aadhaar Number": {
+      "value": "123456789012",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Full Name": {
+      "value": "Mr. Ashok",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Date of Birth": {
+      "value": "18/12/1979",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Address": {
+      "value": "48 JTT HRay faferez, 93ulatqiferdrut, Kataia, West Bihar, India, 841543",
+      "confidence": 0.75,
+      "validation_passed": true
+    }
+  }
+}

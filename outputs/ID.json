@@ -1,0 +1,27 @@
+{
+  "document_name": "ID.png",
+  "document_type": "PAN Card",
+  "is_handwritten": true,
+  "extracted_data": {
+    "PAN Number": {
+      "value": "ABCDE1234F",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Full Name": {
+      "value": "ASHOK",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Father's Name": {
+      "value": "KUMAR",
+      "confidence": 0.9,
+      "validation_passed": true
+    },
+    "Date of Birth": {
+      "value": "18/12/1979",
+      "confidence": 0.95,
+      "validation_passed": true
+    }
+  }
+}

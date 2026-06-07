@@ -1,0 +1,32 @@
+{
+  "document_name": "suitability.jpeg",
+  "document_type": "Suitability Profiler Declaration",
+  "is_handwritten": true,
+  "extracted_data": {
+    "Application Number": {
+      "value": "50013 160l025",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Name of Life Assured": {
+      "value": "Dshok",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Name of Agent/SP": {
+      "value": "Eamesh Kumax",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Date": {
+      "value": "2 loy IoL",
+      "confidence": 0.45,
+      "validation_passed": true
+    },
+    "Place": {
+      "value": "Jes_",
+      "confidence": 0.45,
+      "validation_passed": true
+    }
+  }
+}

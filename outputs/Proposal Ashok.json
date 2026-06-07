@@ -1,0 +1,27 @@
+{
+  "document_name": "Proposal Ashok.pdf",
+  "document_type": "Benefit Illustration Declaration",
+  "is_handwritten": false,
+  "extracted_data": {
+    "Application Number": {
+      "value": "500131160.1025",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Policyholder Name": {
+      "value": "Sanjay",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Date": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    },
+    "Place": {
+      "value": "West Bibar",
+      "confidence": 0.95,
+      "validation_passed": true
+    }
+  }
+}

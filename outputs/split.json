@@ -1,0 +1,27 @@
+{
+  "document_name": "split.jpeg",
+  "document_type": "Multiple Policies Consent Form",
+  "is_handwritten": true,
+  "extracted_data": {
+    "Proposer Name": {
+      "value": "Ashok",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Reason for Multiple Policies": {
+      "value": "Financial Planning (viz payout of different life stages, different payment terms,etc:), Different investment protection needs (viz. protection, child plan, etc ), Separate policy purchased for different beneficiary",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Date": {
+      "value": "26/202L",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Place": {
+      "value": "West B",
+      "confidence": 0.75,
+      "validation_passed": true
+    }
+  }
+}

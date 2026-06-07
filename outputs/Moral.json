@@ -1,0 +1,32 @@
+{
+  "document_name": "Moral.jpeg",
+  "document_type": "Moral Hazard Questionnaire",
+  "is_handwritten": true,
+  "extracted_data": {
+    "Application Number": {
+      "value": "500/37601025",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Name of Life Assured": {
+      "value": "Asbok",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Nominee Relationship": {
+      "value": "Nephew",
+      "confidence": 0.9,
+      "validation_passed": true
+    },
+    "Date": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    },
+    "Place": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    }
+  }
+}

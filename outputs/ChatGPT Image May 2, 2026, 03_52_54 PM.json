@@ -1,0 +1,27 @@
+{
+  "document_name": "ChatGPT Image May 2, 2026, 03_52_54 PM.png",
+  "document_type": "Passport",
+  "is_handwritten": false,
+  "extracted_data": {
+    "Passport Number": {
+      "value": "X1234567",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Date of Birth": {
+      "value": "18/12/1979",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "Date of Expiry": {
+      "value": "01/01/2030",
+      "confidence": 1.0,
+      "validation_passed": true
+    },
+    "MRZ Line 2": {
+      "value": "X1234567< 7IND7912185M300 1010",
+      "confidence": 0.95,
+      "validation_passed": true
+    }
+  }
+}

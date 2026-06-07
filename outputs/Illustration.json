@@ -1,0 +1,27 @@
+{
+  "document_name": "Illustration.jpeg",
+  "document_type": "Benefit Illustration Declaration",
+  "is_handwritten": true,
+  "extracted_data": {
+    "Application Number": {
+      "value": "L500131olbob",
+      "confidence": 0.85,
+      "validation_passed": true
+    },
+    "Policyholder Name": {
+      "value": "Ashok",
+      "confidence": 0.95,
+      "validation_passed": true
+    },
+    "Date": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    },
+    "Place": {
+      "value": null,
+      "confidence": 0.0,
+      "validation_passed": false
+    }
+  }
+}

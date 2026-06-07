@@ -2,6 +2,7 @@
   "document_name": "ID.png",
   "document_type": "PAN Card",
   "is_handwritten": true,
+  "ocr_text": "3abr fa1T1JT\n9TTRT\nrer\nINCOME TAX DEPARTMENT\nGOVT: OF INDIA\n7Q4a Td\nOMe TaX depaRtaTENT Icotiniariame doracnrb] cco\nCONE tn dePARTuEHE\n@cenc dcirgboTCT doouL\nrerf} &r1 ri #T3\nNcove TaX Depap\n{dideede-upicocik\nGovt.Ofrdic}\nJij DEPaFONENI\nCONT OF\nEpaRTIEN\nDOVTOF\nAPIMCUT\nPermanent Account Number Card\nNCOTE\nHRT\nHCYI\nNcDe\nMcO\n(Nede\nHCID\nhacK\nABCDE1234F\nNcOF\n'VC\nhcomiet\nTRER\n@oIF\nHcoke\nefIndik\nBodt.Cfiu\n0er 0DI\nNcOMETKX\nWicgcjodne\nncometaOli\nAbcaaccool\nNcometay depnnt\ndcbrscufeunglic\ncome taX DePARTMENT Idohccorbrsheocifagurbttiay\nT4\nName\nTax department B0ycolsriiIbeolsemuae\nMR. ASHOK\nf4Tt\nTt\nTA\nFather's Name\nS/O KUMAR\n87E\nSignature\nTFH 4 7rd\nDate of Birth\n18/12/1979\nAshok",
   "extracted_data": {
     "PAN Number": {
       "value": "ABCDE1234F",
@@ -20,7 +21,7 @@
     },
     "Date of Birth": {
       "value": "18/12/1979",
-      "confidence": 0.95,
+      "confidence": 1.0,
       "validation_passed": true
     }
   }

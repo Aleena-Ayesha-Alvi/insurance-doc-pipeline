@@ -2,6 +2,7 @@
   "document_name": "split.jpeg",
   "document_type": "Multiple Policies Consent Form",
   "is_handwritten": true,
+  "ocr_text": "Split & Multiple Policies\nCustomer Consent form\nProposer\nLife Assured Name:\nAshok\nMr.\nMrs.\nthat\nI have taken\nmultiple\nAshok\nhereby confirm\nlast six months_\npolicies\nHDFC Life Insurance Company Limited in\nReason for buying multiple policies:\nFinancial Planning (viz   payout o different life stages, different payment\nterms,etc:)\nDifferent investment\nprotection needs (viz. protection, child plan, etc )\nSeparate policy purchased for dlfferent benericlary\nOthers: Please specify:\nunderstand and agree that the above-mentioned split in policies may result in an\nincrease in applicable fees and\nor\ncharges and I confirm to bear the same: Also, [\namaware that I have purchased the above stated multiple policies. Request\nto\nprocess my application.\nyou\nSignature of the policyholder\nproposer\nDate:\n26\n202L\nPlace:\nWest\nB;\nMiss.\nfrom\n|0h\nhar",
   "extracted_data": {
     "Proposer Name": {
       "value": "Ashok",
@@ -15,8 +16,8 @@
     },
     "Date": {
       "value": "26/202L",
-      "confidence": 0.85,
-      "validation_passed": true
+      "confidence": 0.4,
+      "validation_passed": false
     },
     "Place": {
       "value": "West B",

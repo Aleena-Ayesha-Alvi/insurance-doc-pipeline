@@ -8,19 +8,19 @@
     "reason": "Below confidence threshold"
   },
   {
-    "document": "ECS.jpeg",
-    "document_type": "NACH / ECS Mandate",
-    "field": "IFSC Code",
+    "document": "Assignment Ashok.pdf",
+    "document_type": "Moral Hazard Questionnaire",
+    "field": "Name of Life Assured",
     "value": null,
     "confidence": 0.0,
     "reason": "Below confidence threshold"
   },
   {
-    "document": "Fatca.jpeg",
-    "document_type": "FATCA Annexure Form",
-    "field": "Place of Birth",
-    "value": "WesdBeky",
-    "confidence": 0.75,
+    "document": "ECS.jpeg",
+    "document_type": "NACH / ECS Mandate",
+    "field": "IFSC Code",
+    "value": null,
+    "confidence": 0.0,
     "reason": "Below confidence threshold"
   },
   {
@@ -66,6 +66,14 @@
   {
     "document": "split.jpeg",
     "document_type": "Multiple Policies Consent Form",
+    "field": "Date",
+    "value": "26/202L",
+    "confidence": 0.4,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "split.jpeg",
+    "document_type": "Multiple Policies Consent Form",
     "field": "Place",
     "value": "West B",
     "confidence": 0.75,
@@ -74,9 +82,17 @@
   {
     "document": "suitability.jpeg",
     "document_type": "Suitability Profiler Declaration",
+    "field": "Name of Agent/SP",
+    "value": "Eamesh Kumax",
+    "confidence": 0.75,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "suitability.jpeg",
+    "document_type": "Suitability Profiler Declaration",
     "field": "Date",
     "value": "2 loy IoL",
-    "confidence": 0.45,
+    "confidence": 0.0,
     "reason": "Below confidence threshold"
   },
   {

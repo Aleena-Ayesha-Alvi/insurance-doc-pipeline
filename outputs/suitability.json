@@ -2,6 +2,7 @@
   "document_name": "suitability.jpeg",
   "document_type": "Suitability Profiler Declaration",
   "is_handwritten": true,
+  "ocr_text": "HDFC\nFSN/195711082103/6AN4\nLife\nDeclaration\nSuitability Profiler\nSaf usln be jiyol\nCustomer\nApplicatior/ Proposal Form Number:\n50013 160l025\nName of the Life Assurrd/ Proposcd Policyholder\nDshok\nprovided to mel us by HDFC Life in connection with the above referenced\nV We hcrrby dcclare and confirm that the product recommendation\nand information provided by mel U5.\nNumber by way of the \"Suitability Profiler\" has beenderived based on the inputs\nAnplicationv Proposal form\ninsurance need:\nand\nconfirm that it would be suitable for melus based on my/ our\nVwc hzve becnexplained about the features of the product =\nagreel\nfinancialobjcctives\nSICNHERE\nName of Life Assured\nBsbak\nDate:\n2 loy IoL\nPlace:_\nJes_\nBbr\nSignature Life Assured/\nProposed Policyholder\nSIONHERE\nName of AgenUSP:\nEamesh\nKumax\nDate:\n26luks\nPlace:\nWesl\nBilnx\nRan\nSignature Agent / SP\nHDF C Lifc\nHmiutadc\nCompany Limited (HDFC Life) CIN: L6SIIOMHZOOOPLCI28245.IRDAI Registration No. 101.\nRrgd: OfT: IJth Fkxx. Lodlua Excclus\nMill: Conpound NM Joshi MJ Mahalixmi, Mumbai-\n400 014.\nFor qucrica &r morc inlonation; Call 186/-267-9999 (Ical charzes apply) DO NOT prelix any counlry code \u20ac & +91 or 00. Available Mon-Sat from I0 am to\npm |\nEnail\nscrviccta hdfcHlerom\nnntnicc\nhdfclifecom (For NRI customcrs only ) Visit\n#WThdfclile cor\nand\nApollo",
   "extracted_data": {
     "Application Number": {
       "value": "50013 160l025",
@@ -15,13 +16,13 @@
     },
     "Name of Agent/SP": {
       "value": "Eamesh Kumax",
-      "confidence": 0.85,
+      "confidence": 0.75,
       "validation_passed": true
     },
     "Date": {
       "value": "2 loy IoL",
-      "confidence": 0.45,
-      "validation_passed": true
+      "confidence": 0.0,
+      "validation_passed": false
     },
     "Place": {
       "value": "Jes_",

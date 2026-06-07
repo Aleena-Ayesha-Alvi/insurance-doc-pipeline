@@ -2,6 +2,7 @@
   "document_name": "Aadhar.png",
   "document_type": "Aadhaar Card",
   "is_handwritten": false,
+  "ocr_text": "HRT\nFRTT\nGOVERNMENT OF INDIA\nAADHAAR\nName\nTTA\nMr. Ashok\nDate of Birth\nJF ffu\n18/12/1979\nGender\nfrT\nMale\n5q\n12345678 9012\nArT\n3T8R ,\nA\n48 JTT\nHRay faferez\n93ulatqiferdrut\nUNIQUE IDENTIFICATION AUTHORITY OF INDIA\n30T8R\n9a\nAddress\n31TUT 7Z\nAadhaar Number\nSIO Kumar;\n1234 5678 9012\nKataia,\nTTAThT\n8HTch\nEnrollment No\nWest Bihar\n1234/56789/12345\nIndia\n841543\nMr * & Tlfu\nDate\nssue\n01/01/2015\n1947\nhelp@uidaigov.in\nThis is .\nsample\ndummy Aadhaar card\nfor demonstration purpose only:\n1800 300 1947\nwww.uidai gov.in\nNot .\nvalid identity proof:\nKeau",
   "extracted_data": {
     "Aadhaar Number": {
       "value": "123456789012",

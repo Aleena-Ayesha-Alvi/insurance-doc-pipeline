@@ -3,7 +3,7 @@ import io
 import re
 import json
 from pathlib import Path
-
+from datetime import datetime
 import fitz
 import easyocr
 
@@ -21,7 +21,7 @@ load_dotenv()
 RAW_DIR = "raw_documents"
 OUTPUT_DIR = "outputs"
 
-CONFIDENCE_THRESHOLD = 0.85
+CONFIDENCE_THRESHOLD = 0.80
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -119,9 +119,11 @@ def classify_document(text):
             f"{result['document_type']}"
         )
 
-        result["document_type"] = (
-            "Benefit Illustration Declaration"
-        )
+        result = {
+            "document_type":
+                "Benefit Illustration Declaration",
+            "is_handwritten": True
+        }
 
     return result
 
@@ -203,10 +205,34 @@ def validate_field(field_name, value):
 
     if field_name == "ifsc_code":
         return bool(re.match(IFSC_REGEX, value))
+    
+    DATE_FIELDS = [
+    "Date",
+    "Date of Birth",
+    "Date of Issue",
+    "Date of Expiry",
+    "Valid Till Date"
+    ]
+
+    if field_name in DATE_FIELDS:
+        return validate_date(value)
 
     return True
 
+def validate_date(value):
 
+    if value is None:
+        return False
+
+    try:
+        datetime.strptime(
+            value,
+            "%d/%m/%Y"
+        )
+        return True
+
+    except:
+        return False
 # ---------------------------------------------------
 # CONFIDENCE
 # ---------------------------------------------------
@@ -331,13 +357,15 @@ def main():
                 text
             )
 
-            document_type = classification[
-                "document_type"
-            ]
+            document_type = classification.get(
+                "document_type",
+                "Benefit Illustration Declaration"
+            )
 
-            is_handwritten = classification[
-                "is_handwritten"
-            ]
+            is_handwritten = classification.get(
+                "is_handwritten",
+                True
+            )
 
             extracted = extract_fields(
                 document_type,
@@ -360,10 +388,11 @@ def main():
             )
 
             output = {
-                "document_name": filename,
-                "document_type": document_type,
-                "is_handwritten": is_handwritten,
-                "extracted_data": extracted
+            "document_name": filename,
+            "document_type": document_type,
+            "is_handwritten": is_handwritten,
+            "ocr_text": text,
+            "extracted_data": extracted
             }
 
             output_file = os.path.join(
@@ -390,6 +419,17 @@ def main():
             )
 
             print(e)
+
+            review_report.append(
+                {
+                    "document": filename,
+                    "document_type": "UNKNOWN",
+                    "field": "DOCUMENT_LEVEL_FAILURE",
+                    "value": None,
+                    "confidence": 0,
+                    "reason": str(e)
+                }
+            )
 
     with open(
         os.path.join(

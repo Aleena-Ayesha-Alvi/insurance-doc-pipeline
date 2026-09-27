@@ -1,75 +1,127 @@
 # 📄 Insurance Document Processing Pipeline
 
-## Overview
+Upload a scanned insurance form or identity document and the pipeline reads it (OCR), works out what kind of document it is, extracts the required fields, checks them against validation rules, scores how confident it is in each value, and **flags anything uncertain for a human to review**. Documents it doesn't recognise are flagged as `Unknown` instead of being mislabelled.
 
-A document processing pipeline that classifies insurance and identity documents, extracts required fields, assigns field-level confidence scores, and flags low-confidence results for human review.
-
-The solution processes both image documents (PNG, JPG, JPEG) and PDF documents, and can be used as a batch script or through a Streamlit web app.
-
-Pipeline flow:
-
-Document → OCR → Document Classification → Field Extraction → Validation → Confidence Scoring → Human Review Flagging
-
-## 🚀 Live Demo
-
-https://insurance-doc-pipeline-dxm9poapjqgappokbeg2qxi.streamlit.app/
+**🚀 Live Demo:** https://insurance-doc-pipeline-dxm9poapjqgappokbeg2qxi.streamlit.app/
 
 ---
 
-## ⚙️ Setup & Run
+## 🧪 Try These on the Live App
+
+### 📂 Sample Results tab (instant, no API cost)
+Browse precomputed results for all 12 sample documents: the summary table, each document's extracted fields with confidence and validation status, its image, and the full human review report.
+
+### 🔍 Process a Document tab (runs the full pipeline live)
+Choose **Use a sample document**, pick one of these, and click **Run Pipeline**:
+
+| Sample | Expected result |
+|---|---|
+| `Aadhar.png` | **Aadhaar Card**, printed. Aadhaar number `1234 5678 9012`, name, DOB `18/12/1979`; Aadhaar format check passes |
+| `ID.png` | **PAN Card**, printed. PAN `ABCDE1234F` passes the PAN format check; **all fields pass** the 0.80 threshold |
+| `ChatGPT Image May 2, 2026, 03_52_54 PM.png` | **Passport**. Passport number `X1234567`, DOB, expiry and MRZ line; all fields pass |
+| `Fatca.jpeg` | **FATCA Annexure Form**, handwritten. Garbled values such as Nationality "Lndean" and Place of Birth "WesdBeky" are **flagged for review** |
+| `ECS.jpeg` | **NACH / ECS Mandate**, handwritten. The noisy IFSC code fails the IFSC format check and is **flagged** |
+| `Assignment Ashok.pdf` | **Unknown** (detected title: *Assignment Request Form*). Extraction is skipped and the document is sent for manual classification |
+
+You can also choose **Upload a file** and try your own PNG, JPG or PDF. The first live run on a fresh deployment downloads the OCR models, so give it a minute. Multi-page PDFs take longer because every page is OCR'd.
+
+---
+
+## What It Does
+
+It processes the documents an insurer receives with a policy application:
+
+- **Identity documents:** Aadhaar Card, PAN Card, Driving Licence, Passport
+- **Insurance forms:** NACH / ECS Mandate, FATCA Annexure, Benefit Illustration Declaration, Moral Hazard Questionnaire, Multiple Policies Consent Form, Suitability Profiler Declaration
+- **Anything else** → `Unknown`, routed to a person
+
+For every document it produces a structured JSON record (type, detected title, handwritten or printed, OCR text, and each field with value, confidence and validation status). It also maintains one consolidated **human review report** listing every field that needs a person to check it.
+
+It can be used through the **Streamlit web app** or as a **batch script** over a folder of documents.
+
+---
+
+## How It Works
+
+```text
+Image / PDF
+    │
+    ▼
+① OCR (EasyOCR; PDFs rendered page-by-page with PyMuPDF)
+    │  raw text
+    ▼
+② Classification (LLM)
+    │  detected title → matches a supported type? → document type + handwritten?
+    │  no match ─────────────────────────────► Unknown → manual review
+    ▼
+③ Field extraction (LLM)
+    │  required fields for that type, each with a calibrated confidence
+    ▼
+④ Validation (deterministic rules)
+    │  Aadhaar / PAN / Passport / IFSC formats, dates, empty values
+    ▼
+⑤ Confidence scoring
+    │  +0.15 valid · −0.30 invalid · −0.10 handwritten
+    ▼
+⑥ Human review flagging (confidence < 0.80)
+    │
+    ▼
+JSON per document + human_review_flagging_report.json
+```
+
+**① OCR.** EasyOCR reads images directly. PDFs are rendered to images at 2× resolution with PyMuPDF and every page is read.
+
+**② Classification.** The LLM receives the OCR text and follows three explicit steps. First it identifies the document's own title (`detected_label`). Then it decides whether that title is the **same kind of document** as a supported type (`matches_supported_type`); shared fields like name, date or policy number don't count. Finally it picks the type or `Unknown`. The code enforces this decision, so a document can never be forced into the closest type. Government ID cards are always treated as printed; for forms, the LLM decides whether the filled-in values are handwritten.
+
+**③ Extraction.** Each document type has a fixed list of required fields (e.g. PAN Card → PAN Number, Full Name, Father's Name, Date of Birth). The LLM extracts only those fields and rates each value on an explicit scale, so garbled OCR output like "Kephew" or "L500131olbob" is not rated as certain.
+
+**④–⑥ Validation, scoring and review.** Deterministic rules check formats and adjust the LLM's confidence. Any field below **0.80** goes into the human review report, along with every `Unknown` document.
+
+The sections below document each stage in detail.
+
+---
+
+## Try It Locally
 
 Requires Python 3.12.
 
 ```bash
 python -m venv .venv
 .venv\Scripts\activate           # Windows  (macOS/Linux: source .venv/bin/activate)
-pip install -r requirements.txt
+pip install -r requirements.txt  # installs CPU-only PyTorch for EasyOCR
 ```
 
-`requirements.txt` pulls the CPU-only build of PyTorch (for EasyOCR), which keeps the install small.
-
-Copy `.env.example` to `.env` and add your token:
+Copy `.env.example` to `.env` and add your [AI Pipe](https://aipipe.org) token:
 
 ```env
 AI_PIPE_KEY=your_aipipe_token
-# Optional overrides
+# Optional: any OpenAI-compatible provider works
 # LLM_MODEL=gpt-4o-mini
 # LLM_BASE_URL=https://aipipe.org/openai/v1
 ```
 
-Get a token at [aipipe.org](https://aipipe.org). The LLM is called through AI Pipe's OpenAI-compatible endpoint, so any OpenAI-compatible provider works by changing `LLM_BASE_URL` and `LLM_MODEL`.
-
-### Web App
+**Web app:**
 
 ```bash
 streamlit run app.py
 ```
 
-* **Process a Document**: upload an image/PDF (or pick a sample) and run the full pipeline live.
-* **Sample Results**: browse the precomputed results for the 12 sample documents and the full human review report (no API calls).
-
-### Batch Pipeline
+**Batch pipeline:**
 
 ```bash
 python pipeline.py              # OCR + LLM for every file in raw_documents/
 python pipeline.py --reuse-ocr  # re-run only the LLM stages using OCR text saved in outputs/
 ```
 
-Results are written to `outputs/`. EasyOCR downloads its detection and recognition models on the first run; OCR runs on CPU and takes roughly 30–60 seconds per document. `--reuse-ocr` is useful when iterating on prompts, since it skips OCR entirely.
+Results are written to `outputs/`. OCR runs on CPU and takes roughly 30–60 seconds per document. `--reuse-ocr` skips it, which is handy when iterating on prompts.
 
----
+## Deploy to Streamlit Cloud
 
-## ☁️ Deploy to Streamlit Cloud
+1. On [share.streamlit.io](https://share.streamlit.io), click **Create app**: repository `insurance-doc-pipeline`, branch `main`, main file `app.py`.
+2. In **Advanced settings**, choose Python **3.12** and add the secret `AI_PIPE_KEY = "your_aipipe_token"`.
+3. Click **Deploy**. The first boot takes a few minutes while PyTorch installs.
 
-1. Push this repository to GitHub.
-2. On [share.streamlit.io](https://share.streamlit.io), click **Create app** and select the repository, branch `main` and main file `app.py`.
-3. Under **Advanced settings**, choose Python **3.12** and add the secret:
-   ```toml
-   AI_PIPE_KEY = "your_aipipe_token"
-   ```
-4. Click **Deploy**. The first boot takes a few minutes while PyTorch installs, and the first live run downloads the EasyOCR models (~100 MB).
-
-The **Sample Results** tab works without any API calls, so reviewers can explore the outputs even if the API budget is exhausted.
+The **Sample Results** tab needs no API calls, so reviewers can explore the outputs even if the API budget runs out.
 
 ---
 
@@ -77,58 +129,32 @@ The **Sample Results** tab works without any API calls, so reviewers can explore
 
 ```text
 insurance-doc-pipeline/
-│
-├── app.py                  # Streamlit web app
+├── app.py                  # Streamlit web app (live processing + sample results browser)
 ├── pipeline.py             # OCR, classification, extraction, validation, review flagging
-├── prompts.py              # Classification/extraction prompts and field requirements
-├── schemas.py              # Pydantic schemas for the output format
+├── prompts.py              # Classification/extraction prompts and required fields per type
+├── schemas.py              # Pydantic schema of the per-document JSON output
+├── raw_documents/          # 12 sample documents (images and PDFs)
+├── outputs/                # One JSON per document + human_review_flagging_report.json
 ├── requirements.txt
 ├── .env.example
-│
-├── raw_documents/          # 12 sample documents
-└── outputs/                # One JSON per document + human_review_flagging_report.json
+└── README.md
 ```
 
 ---
 
-## Document Classification
+# Methodology in Detail
 
-Document type classification is performed using GPT-4o mini via AI Pipe.
+## 1. Document Classification
 
-The model receives OCR text extracted from the document and classifies it into one of the supported document categories:
+Supported types: Aadhaar Card, PAN Card, Driving Licence, Passport, NACH / ECS Mandate, FATCA Annexure Form, Benefit Illustration Declaration, Moral Hazard Questionnaire, Multiple Policies Consent Form, Suitability Profiler Declaration, plus **Unknown**.
 
-- Aadhaar Card
-- PAN Card
-- Driving Licence
-- Passport
-- NACH / ECS Mandate
-- FATCA Annexure Form
-- Benefit Illustration Declaration
-- Moral Hazard Questionnaire
-- Multiple Policies Consent Form
-- Suitability Profiler Declaration
-- Unknown
-
-Each supported type is given a one-line description in the prompt, and the OCR text is passed inside clear delimiters.
-
-### Unknown Documents
-
-The classifier follows three explicit steps:
-
-1. Identify the document's own title or purpose from the OCR text (`detected_label`).
-2. Decide whether that title is the **same kind of document** as a supported type (`matches_supported_type`). Shared fields (name, date, place, reason, policy number) or shared vocabulary do not count.
-3. If it does not match, the type **must** be `Unknown`.
-
-The pipeline enforces these decisions in code:
+Each supported type gets a one-line description in the prompt, and the OCR text is passed inside clear delimiters. The pipeline enforces the model's decisions in code:
 
 * `matches_supported_type: false` always results in `Unknown`.
 * A `detected_label` that is literally a supported type name (e.g. "Moral Hazard Questionnaire") always maps to that type.
 * Any label outside the supported list is routed to `Unknown`.
 
-Unknown documents:
-
-* Skip field extraction, since no field schema exists for them and the model would otherwise invent fields
-* Are added to the Human Review Report as a single `DOCUMENT_TYPE` item for manual classification
+Unknown documents skip field extraction, since there is no field schema for them and the model would invent fields. Each one becomes a single `DOCUMENT_TYPE` review item:
 
 ```json
 {
@@ -141,24 +167,11 @@ Unknown documents:
 }
 ```
 
-In the sample set, the 10 supported types map one-to-one onto 10 documents, and the two extra documents (an *Assignment Request Form* and a *Customer Declaration – Application/Proposal Form*) are flagged as Unknown. Previously they were forced into unrelated types such as Moral Hazard Questionnaire or Benefit Illustration Declaration. Classification was verified to be stable across three consecutive runs.
+In the sample set, the 10 supported types map one-to-one onto 10 documents. The two extra documents, an *Assignment Request Form* and a *Customer Declaration – Application/Proposal Form*, are flagged as Unknown. Classification was verified to be stable across three consecutive runs.
 
----
+## 2. Extraction Output
 
-# 1. Extraction Output
-
-For every processed document, the system generates a structured JSON file containing:
-
-* Document name
-* Document type
-* Detected label (the document's title as identified by the classifier)
-* Handwritten/Printed indicator
-* OCR text
-* Extracted fields
-* Confidence score per field
-* Validation status per field
-
-Example output structure (`outputs/ECS.json`, abbreviated):
+Each document produces a JSON file (`outputs/ECS.json`, abbreviated):
 
 ```json
 {
@@ -168,27 +181,15 @@ Example output structure (`outputs/ECS.json`, abbreviated):
   "is_handwritten": true,
   "ocr_text": "...",
   "extracted_data": {
-    "Bank Name": {
-      "value": "HDFC",
-      "confidence": 0.95,
-      "validation_passed": true
-    },
-    "IFSC Code": {
-      "value": "SBICNCCISB",
-      "confidence": 0.2,
-      "validation_passed": false
-    }
+    "Bank Name": { "value": "HDFC", "confidence": 0.95, "validation_passed": true },
+    "IFSC Code": { "value": "SBICNCCISB", "confidence": 0.2, "validation_passed": false }
   }
 }
 ```
 
----
+## 3. Confidence Scoring
 
-# 2. Confidence Scoring Methodology
-
-Field-level confidence scores are generated instead of a single document confidence score.
-
-Initial confidence is obtained from the LLM extraction response. The extraction prompt defines an explicit calibration scale so the model does not rate garbled OCR output as certain:
+Confidence is scored per field, not per document. The LLM's initial confidence follows an explicit calibration scale:
 
 | Initial confidence | Meaning |
 |---|---|
@@ -197,239 +198,54 @@ Initial confidence is obtained from the LLM extraction response. The extraction 
 | 0.30 – 0.50 | Garbled value (e.g. "Kephew", "Lndean", "L500131olbob") or partial value ("West B", "26/2021") |
 | 0.00 – 0.20 | A guess, or the value could not be located |
 
-The confidence score is then adjusted using deterministic rules:
+Deterministic adjustments then ground it in validation outcomes:
 
-* Validation passed → +0.15 confidence
-* Validation failed → −0.30 confidence
-* Handwritten document → −0.10 confidence adjustment
+* Validation passed → +0.15
+* Validation failed → −0.30
+* Handwritten document → −0.10
 
-Final confidence score is clipped between 0.0 and 1.0.
+The final score is clipped to the range 0.0–1.0.
 
-This approach produces confidence values that are grounded in validation outcomes rather than relying solely on LLM self-assessment.
+## 4. Validation Rules
 
----
+Field names are normalised (e.g. `Aadhaar Number` → `aadhaar_number`) before the rules run:
 
-# 3. Validation Rules
+| Field | Rule | Example |
+|---|---|---|
+| Aadhaar Number | 12 digits (spaces ignored) | 1234 5678 9012 |
+| PAN Number | `AAAAA9999A` | ABCDE1234F |
+| Passport Number | `A1234567` | X1234567 |
+| IFSC Code | `AAAA0XXXXXX` | SBIN0027112 |
+| Date fields | DD/MM/YYYY, DD-MM-YYYY or DD.MM.YYYY | 15/06/2021 |
+| Any field | Placeholder values (`"null"`, `"None"`, `"N/A"`, `"-"`) become `null` and fail | — |
 
-Field names are normalised (e.g. `Aadhaar Number` → `aadhaar_number`) before the rules are applied. The following deterministic validation rules are implemented:
+## 5. Human Review Threshold
 
-## Aadhaar Number
-
-Pattern: 12 numeric digits (spaces ignored)
-
-Example: 1234 5678 9012
-
-## PAN Number
-
-Pattern: AAAAA9999A
-
-Example: ABCDE1234F
-
-## Passport Number
-
-Pattern: A1234567
-
-## IFSC Code
-
-Pattern: AAAA0XXXXXX
-
-Example: SBIN0027112
-
-## Date Fields
-
-Supported formats: DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
-
-Examples: 15/06/2021, 14-06-2041
-
-## Empty Values
-
-Placeholder strings returned by the LLM (`"null"`, `"None"`, `"N/A"`, `"-"`) are converted to a real `null` and fail validation.
-
-> **Fix note:** in the original version the ID-number rules compared against snake_case keys (`aadhaar_number`) while the extracted fields used display names (`Aadhaar Number`), so Aadhaar, PAN, Passport and IFSC validation never ran. Field-name normalisation fixes this.
-
----
-
-# 4. Human Review Threshold
-
-Selected threshold:
-
-0.80
-
-Fields with confidence below 0.80 are added to the Human Review Report.
-
-Rationale:
+**0.80.** Fields below it are added to `outputs/human_review_flagging_report.json`, with document, type, field, value, confidence and reason (including whether validation failed).
 
 * Handwritten forms naturally produce lower OCR quality.
-* A threshold of 0.80 balances extraction accuracy and reviewer workload.
-* Higher thresholds generated excessive false review requests.
-* Lower thresholds allowed uncertain handwritten values to pass without review.
+* 0.80 balances extraction accuracy against reviewer workload.
+* Higher thresholds generated excessive false review requests; lower ones let uncertain handwritten values through.
 
----
+## 6. Handwritten Text Handling
 
-# 5. Human Review Report
+1. The classifier flags forms whose filled-in values look handwritten: garbled or misspelt values, letters mixed into numbers, broken fragments next to printed labels.
+2. Government ID cards are always treated as printed, so they never receive the handwriting penalty.
+3. Handwritten documents take a −0.10 confidence penalty on every field.
+4. Missing or low-confidence handwritten values are always routed to review, never silently accepted.
 
-A consolidated report is generated:
+## 7. Failure Cases Observed
 
-`outputs/human_review_flagging_report.json`
+| Case | What happened | Outcome |
+|---|---|---|
+| ECS Mandate, IFSC code (actual `SBIN0027112`) | OCR merged handwritten and printed regions and returned `SBICNCCISB` | IFSC validation failed (0.2) → review |
+| Place names and nationality (West Bihar, Indian) | Character substitutions: `WesdBeky`, `Wesl Bilnx Ran`, `Lndean` | Confidence 0.35 → review |
+| Handwritten dates | Letter/digit confusion: `26/202L`, `26luks` | Date validation failed (0.0) → review |
+| **Remaining limitation** | Misreadings that still look like valid words (e.g. "Asbok" for "Ashok") can score high | Cross-checking names across one applicant's documents would catch these |
 
-The report contains:
+## 8. Results on the Sample Set
 
-* Document Name
-* Document Type
-* Field Name
-* Extracted Value
-* Confidence Score
-* Review Reason (including whether validation failed)
-
-Example:
-
-```json
-{
-  "document": "Fatca.jpeg",
-  "document_type": "FATCA Annexure Form",
-  "field": "Nationality",
-  "value": "Lndean",
-  "confidence": 0.35,
-  "reason": "Below confidence threshold"
-}
-```
-
----
-
-# 6. Handwritten Text Handling
-
-Handwritten content is treated differently from printed content.
-
-Approach:
-
-1. OCR extraction performed using EasyOCR.
-2. The classifier flags forms whose filled-in values appear handwritten (garbled or misspelt values, letters mixed into numbers, broken fragments next to printed labels).
-3. Government ID cards (Aadhaar, PAN, Driving Licence, Passport) are always treated as printed. This deterministic rule prevents printed cards from receiving the handwriting penalty.
-4. Documents classified as handwritten receive an additional confidence penalty.
-5. Missing handwritten values are automatically routed to human review.
-6. Low-confidence handwritten fields are never forced into a final result.
-
-Examples of handwritten fields:
-
-* IFSC Code
-* TIN / PAN
-* Place of Birth
-* Application Number
-* Date fields
-* Place names
-
-This reduces the risk of silently accepting incorrect handwritten values.
-
----
-
-# 7. Failure Cases Observed
-
-## ECS Mandate – IFSC Code
-
-Expected Value:
-
-SBIN0027112
-
-Issue:
-
-The IFSC code is visually readable but OCR produced a noisy value (`SBICNCCISB`).
-
-Root Cause:
-
-OCR merged adjacent handwritten and printed regions into a noisy text segment, preventing correct field isolation.
-
-Result:
-
-IFSC validation failed (confidence 0.2) and the field was routed to Human Review.
-
----
-
-## Place Names and Nationality
-
-Examples:
-
-* West Bihar
-* Indian
-
-Issue:
-
-OCR introduced character substitutions and spelling distortions.
-
-Examples:
-
-* WesdBeky, Wesl Bilnx Ran, JlesL Bibr
-* Lndean
-
-Result:
-
-Confidence reduced (0.35) and fields flagged for review.
-
----
-
-## Handwritten Dates
-
-Examples:
-
-* 26/202L
-* 26luks
-
-Issue:
-
-Character ambiguity between letters and numbers.
-
-Result:
-
-Date validation failed and confidence dropped to 0.0.
-
----
-
-## Remaining Limitation – Plausible Misreadings
-
-OCR errors that still look like valid words (e.g. "Asbok" for "Ashok") can receive high confidence because neither the LLM nor the regex rules can tell they are wrong. Cross-checking names across documents belonging to the same applicant would catch these.
-
----
-
-# 8. Technologies Used
-
-OCR:
-
-* EasyOCR
-
-LLM:
-
-* GPT-4o mini via AI Pipe (OpenAI-compatible API)
-
-PDF Processing:
-
-* PyMuPDF
-
-PDF documents are converted into page images before OCR and extraction.
-
-Validation:
-
-* Regex-based deterministic validation
-
-Interface:
-
-* Streamlit
-
-Output Format:
-
-* Structured JSON
-
-Review Workflow:
-
-* Confidence-based human review routing
-
----
-
-# Results Summary
-
-Documents processed: 12 (10 supported types + 2 Unknown)
-
-Fields extracted: 44
-
-Human review items: 25
+12 documents processed (10 supported types + 2 Unknown), 44 fields extracted, 25 human review items.
 
 | Document | Type | Handwritten | Review Items |
 |---|---|---|---|
@@ -446,24 +262,17 @@ Human review items: 25
 | Assignment Ashok.pdf | Unknown (Assignment Request Form) | Yes | 1 |
 | Proposal Ashok.pdf | Unknown (Application/Proposal Form) | Yes | 1 |
 
-Fields flagged for review:
+Printed identity documents pass with high confidence, and every uncertain handwritten value is routed to a person.
 
-- Noisy IFSC Code and bank account number in the ECS Mandate
-- Missing or garbled handwritten dates
-- Garbled handwritten place names and nationality
-- Letter/digit confusion in application numbers
-- Documents outside the supported categories (classified as Unknown)
+---
 
-The pipeline completed successfully without requiring manual intervention during processing.
+## Tech Stack
 
-# Conclusion
-
-The implemented pipeline successfully performs:
-
-* Document classification, including explicit handling of unsupported documents
-* Structured field extraction
-* Field-level confidence estimation
-* Deterministic validation
-* Human review routing
-
-The system performs strongly on printed identity documents (all fields pass with full confidence) and provides a safe review workflow for uncertain handwritten insurance forms.
+| Layer | Technology |
+|---|---|
+| UI | Streamlit |
+| OCR | EasyOCR (CPU) |
+| PDF rendering | PyMuPDF |
+| LLM | GPT-4o mini via [AI Pipe](https://aipipe.org) (OpenAI-compatible), LangChain `ChatOpenAI` |
+| Validation | Regex and date rules |
+| Output | Structured JSON + consolidated review report |

@@ -27,7 +27,9 @@ st.caption(
 # RENDERING
 # ---------------------------------------------------
 
-def render_result(output, review_items):
+def render_result(output, review_items, key):
+
+    # key keeps widget IDs unique when both tabs show the same document
 
     col1, col2, col3 = st.columns(3)
     col1.metric("Document Type", output["document_type"])
@@ -51,11 +53,11 @@ def render_result(output, review_items):
             for name, data in extracted.items()
         ]
         st.subheader("Extracted Fields")
-        st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+        st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch", key=f"{key}_fields")
 
     st.subheader(f"Human Review Items ({len(review_items)})")
     if review_items:
-        st.dataframe(pd.DataFrame(review_items), hide_index=True, width="stretch")
+        st.dataframe(pd.DataFrame(review_items), hide_index=True, width="stretch", key=f"{key}_review")
     else:
         st.success(f"All fields passed the {CONFIDENCE_THRESHOLD:.2f} confidence threshold.")
 
@@ -66,7 +68,8 @@ def render_result(output, review_items):
         "Download JSON",
         data=json.dumps(output, indent=2),
         file_name=f"{Path(output['document_name']).stem}.json",
-        mime="application/json"
+        mime="application/json",
+        key=f"{key}_download"
     )
 
 
@@ -139,7 +142,7 @@ with process_tab:
 
             last = st.session_state.get("last_result")
             if last and last[0] == doc_name:
-                render_result(*last[1])
+                render_result(*last[1], key="process")
 
 with samples_tab:
 
@@ -176,7 +179,8 @@ with samples_tab:
         with result_col:
             render_result(
                 output,
-                [r for r in report if r["document"] == output["document_name"]]
+                [r for r in report if r["document"] == output["document_name"]],
+                key="samples"
             )
 
         with st.expander(f"Full Human Review Report ({len(report)} items)"):

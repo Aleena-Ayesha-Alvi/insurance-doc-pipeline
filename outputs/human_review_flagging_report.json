@@ -3,24 +3,88 @@
     "document": "Aadhar.png",
     "document_type": "Aadhaar Card",
     "field": "Address",
-    "value": "48 JTT HRay faferez, 93ulatqiferdrut, Kataia, West Bihar, India, 841543",
+    "value": "Kataia, West Bihar, India",
     "confidence": 0.75,
     "reason": "Below confidence threshold"
   },
   {
     "document": "Assignment Ashok.pdf",
-    "document_type": "Moral Hazard Questionnaire",
-    "field": "Name of Life Assured",
-    "value": null,
-    "confidence": 0.0,
+    "document_type": "Unknown",
+    "field": "DOCUMENT_TYPE",
+    "value": "ASSIGNMENT REQUEST FORM",
+    "confidence": 0,
+    "reason": "Unrecognised document type - manual classification required"
+  },
+  {
+    "document": "ECS.jpeg",
+    "document_type": "NACH / ECS Mandate",
+    "field": "Bank Account Number",
+    "value": "BITopI42DE421121",
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
     "document": "ECS.jpeg",
     "document_type": "NACH / ECS Mandate",
     "field": "IFSC Code",
+    "value": "SBICNCCISB",
+    "confidence": 0.2,
+    "reason": "Below confidence threshold (validation failed)"
+  },
+  {
+    "document": "ECS.jpeg",
+    "document_type": "NACH / ECS Mandate",
+    "field": "Amount",
+    "value": "50,006",
+    "confidence": 0.65,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "ECS.jpeg",
+    "document_type": "NACH / ECS Mandate",
+    "field": "Frequency",
+    "value": "Monthly",
+    "confidence": 0.65,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Fatca.jpeg",
+    "document_type": "FATCA Annexure Form",
+    "field": "TIN / PAN",
     "value": null,
     "confidence": 0.0,
+    "reason": "Below confidence threshold (validation failed)"
+  },
+  {
+    "document": "Fatca.jpeg",
+    "document_type": "FATCA Annexure Form",
+    "field": "Father's Name",
+    "value": "Axjun",
+    "confidence": 0.65,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Fatca.jpeg",
+    "document_type": "FATCA Annexure Form",
+    "field": "Place of Birth",
+    "value": "WesdBeky",
+    "confidence": 0.35,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Fatca.jpeg",
+    "document_type": "FATCA Annexure Form",
+    "field": "Nationality",
+    "value": "Lndean",
+    "confidence": 0.35,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "Illustration.jpeg",
+    "document_type": "Benefit Illustration Declaration",
+    "field": "Application Number",
+    "value": "L500131olbob",
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
@@ -29,7 +93,7 @@
     "field": "Date",
     "value": null,
     "confidence": 0.0,
-    "reason": "Below confidence threshold"
+    "reason": "Below confidence threshold (validation failed)"
   },
   {
     "document": "Illustration.jpeg",
@@ -37,6 +101,14 @@
     "field": "Place",
     "value": null,
     "confidence": 0.0,
+    "reason": "Below confidence threshold (validation failed)"
+  },
+  {
+    "document": "Moral.jpeg",
+    "document_type": "Moral Hazard Questionnaire",
+    "field": "Nominee Relationship",
+    "value": "Kephew",
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
@@ -45,22 +117,30 @@
     "field": "Date",
     "value": null,
     "confidence": 0.0,
-    "reason": "Below confidence threshold"
+    "reason": "Below confidence threshold (validation failed)"
   },
   {
     "document": "Moral.jpeg",
     "document_type": "Moral Hazard Questionnaire",
     "field": "Place",
-    "value": null,
-    "confidence": 0.0,
+    "value": "JlesL Bibr",
+    "confidence": 0.35,
     "reason": "Below confidence threshold"
   },
   {
     "document": "Proposal Ashok.pdf",
-    "document_type": "Benefit Illustration Declaration",
-    "field": "Date",
-    "value": null,
-    "confidence": 0.0,
+    "document_type": "Unknown",
+    "field": "DOCUMENT_TYPE",
+    "value": "Customer Declaration - Application/Proposal Form",
+    "confidence": 0,
+    "reason": "Unrecognised document type - manual classification required"
+  },
+  {
+    "document": "split.jpeg",
+    "document_type": "Multiple Policies Consent Form",
+    "field": "Reason for Multiple Policies",
+    "value": "Financial Planning (viz   payout o different life stages, different payment terms,etc:) Different investment protection needs (viz. protection, child plan, etc ) Separate policy purchased for dlfferent benericlary",
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
@@ -68,15 +148,31 @@
     "document_type": "Multiple Policies Consent Form",
     "field": "Date",
     "value": "26/202L",
-    "confidence": 0.4,
-    "reason": "Below confidence threshold"
+    "confidence": 0.0,
+    "reason": "Below confidence threshold (validation failed)"
   },
   {
     "document": "split.jpeg",
     "document_type": "Multiple Policies Consent Form",
     "field": "Place",
-    "value": "West B",
-    "confidence": 0.75,
+    "value": "West",
+    "confidence": 0.65,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "suitability.jpeg",
+    "document_type": "Suitability Profiler Declaration",
+    "field": "Application Number",
+    "value": "50013 160l025",
+    "confidence": 0.65,
+    "reason": "Below confidence threshold"
+  },
+  {
+    "document": "suitability.jpeg",
+    "document_type": "Suitability Profiler Declaration",
+    "field": "Name of Life Assured",
+    "value": "Dshok",
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
@@ -84,23 +180,23 @@
     "document_type": "Suitability Profiler Declaration",
     "field": "Name of Agent/SP",
     "value": "Eamesh Kumax",
-    "confidence": 0.75,
+    "confidence": 0.65,
     "reason": "Below confidence threshold"
   },
   {
     "document": "suitability.jpeg",
     "document_type": "Suitability Profiler Declaration",
     "field": "Date",
-    "value": "2 loy IoL",
+    "value": "26luks",
     "confidence": 0.0,
-    "reason": "Below confidence threshold"
+    "reason": "Below confidence threshold (validation failed)"
   },
   {
     "document": "suitability.jpeg",
     "document_type": "Suitability Profiler Declaration",
     "field": "Place",
-    "value": "Jes_",
-    "confidence": 0.45,
+    "value": "Wesl Bilnx Ran",
+    "confidence": 0.35,
     "reason": "Below confidence threshold"
   }
 ]

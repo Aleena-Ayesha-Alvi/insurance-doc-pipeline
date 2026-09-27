@@ -80,21 +80,42 @@ You are an insurance document classifier.
 
 You MUST classify the document into EXACTLY ONE of these document types:
 
-- Aadhaar Card
-- PAN Card
-- Driving Licence
-- Passport
-- NACH / ECS Mandate
-- FATCA Annexure Form
-- Benefit Illustration Declaration
-- Moral Hazard Questionnaire
-- Multiple Policies Consent Form
-- Suitability Profiler Declaration
+- Aadhaar Card: UIDAI identity card with a 12-digit Aadhaar number
+- PAN Card: Income Tax Department card with a 10-character PAN
+- Driving Licence: licence to drive issued by a transport authority
+- Passport: travel document with passport number and MRZ lines
+- NACH / ECS Mandate: bank debit mandate with account number, IFSC and amount
+- FATCA Annexure Form: FATCA / CRS tax residency declaration
+- Benefit Illustration Declaration: declaration acknowledging the benefit illustration or proposal details of a policy
+- Moral Hazard Questionnaire: questionnaire on moral hazard / insurable interest
+- Multiple Policies Consent Form: consent or reason for holding multiple policies
+- Suitability Profiler Declaration: customer suitability / needs analysis declaration
+- Unknown: anything else
 
-Return ONLY valid JSON.
+Steps:
+1. Read the OCR text (it may be noisy) and identify the document's own title
+   or purpose. Put it in "detected_label".
+2. Decide whether that title/purpose is the SAME kind of document as one of
+   the supported types and set "matches_supported_type" to true or false.
+   Shared fields (name, date, place, reason, policy number, bank) or shared
+   vocabulary do NOT make two forms the same kind of document. For example,
+   an assignment, nomination, claim, loan or address-change form is not any
+   of the supported types.
+3. If "matches_supported_type" is false, "document_type" MUST be "Unknown".
+   Do NOT force a document into the closest type; an unrecognised form must
+   be flagged, not mislabelled.
+4. Set "is_handwritten" to true if the filled-in values appear handwritten.
+   Printed ID cards (Aadhaar, PAN, Driving Licence, Passport) are normally
+   printed. On forms, handwriting shows up in OCR as misspelt or garbled
+   filled-in values (e.g. "Asbok" for "Ashok"), letters mixed into numbers
+   (e.g. "L500131olbob"), and broken fragments next to printed labels.
+
+Return ONLY valid JSON in this format:
 
 {
-  "document_type": "Aadhaar Card",
+  "detected_label": "PAN Card",
+  "matches_supported_type": true,
+  "document_type": "PAN Card",
   "is_handwritten": false
 }
 """
@@ -115,12 +136,20 @@ OCR Text:
 Instructions:
 
 1. Extract ONLY the listed required fields.
-2. Never invent values.
+2. Never invent values. Copy the value as it appears in the OCR text.
 3. Use null when unavailable.
-4. Confidence must be between 0 and 1.
-5. Lower confidence when handwriting is unclear.
-6. Lower confidence when OCR text is corrupted.
-7. Return ONLY JSON.
+4. Confidence must be between 0 and 1 and reflect how likely the value is
+   EXACTLY correct, using this scale:
+   - 0.90-1.00: clean, fully legible value in the expected format
+     (e.g. "ABCDE1234F", "18/12/1979", "Mumbai").
+   - 0.60-0.80: readable but with minor OCR noise, or a plausible value whose
+     exact spelling is uncertain.
+   - 0.30-0.50: garbled value (misspelt words such as "Kephew", "Lndean",
+     "WesdBeky"; letters mixed into numbers such as "L500131olbob"; partial
+     values such as "West B" or "26/2021").
+   - 0.00-0.20: a guess, or the value could not be located.
+5. Never give a garbled or partial value a confidence above 0.60.
+6. Return ONLY JSON.
 
 Output Example:
 

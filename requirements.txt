@@ -1,0 +1,12 @@
+# CPU-only PyTorch (avoids multi-GB CUDA downloads on Streamlit Cloud)
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+streamlit==1.58.0
+langchain-core==0.2.43
+langchain-openai==0.1.25
+python-dotenv==1.2.2
+pydantic>=2
+pymupdf==1.28.2
+easyocr==1.7.2
+torch
+torchvision
